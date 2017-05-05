@@ -1,12 +1,12 @@
 # ThereminPi HAW
 
-ThereminPi is a project of 3 Media Engineering students: Burak Caner, Quynh Nguyen & Simon Rhöde from the HAW Hamburg in the frame of our course IT-System.
+ThereminPi is a project of 3 Media Engineering students: Burak Caner, Quynh Nguyen & Simon Rode from the HAW Hamburg in the frame of our course IT-System.
 
 This repository include the code to build a midi-based Theremin from Raspberry Pi (3 Model B) and HC-SR04 Ultrasonic Sensors
  
 ## Installation
 
-TODO: 
+TODO: Write installation instructions
 
 ## Usage
 
