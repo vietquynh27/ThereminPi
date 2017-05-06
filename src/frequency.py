@@ -12,7 +12,7 @@ def prepare(GPIO_TRIGGER, GPIO_ECHO):
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN)
     GPIO.output(GPIO_TRIGGER, False)
-    print("Sensor is getting ready")
+    #print("Sensor is getting ready")
     time.sleep(1)
 
 #This function get the distance from the sensor      
@@ -24,20 +24,20 @@ def get_distance(GPIO_TRIGGER, GPIO_ECHO):
     GPIO.output(GPIO_TRIGGER, True)
     time.sleep(0.00001)
     GPIO.output(GPIO_TRIGGER, False)
-    print("Sent pulse")
+    #print("Sent pulse")
     #The sensor then set the echo=1 until the pulse comes back
     #so we have to record the last timestamp before echo goes high
     try:
         while GPIO.input(GPIO_ECHO)==0:
             start = time.time()
-            print("echo is now on high, waiting for reflected pulse")
+            #print("echo is now on high, waiting for reflected pulse")
     except Exception:
         pass
     #and record the last timestamp when echo is high
     try:
         while GPIO.input(GPIO_ECHO)==1:
             stop = time.time()
-            print("reflection detected")
+            #print("reflection detected")
     except Exception:
         pass
     #that gives the elapsed time for the pulse to goes and comes back
@@ -112,7 +112,7 @@ try:
             if single_dist is None:
                 single_dist = dist_alt
             liste.append(single_dist)
-        #time.sleep(0.1)
+        time.sleep(0.1)
         #Get the median value of the list
         median_dist = statistics.median(liste)
         print("median:", median_dist)
@@ -126,7 +126,7 @@ try:
         dist_alt = single_dist
         #Play the newly calculated note and shut off the previous one
         play_midi(note, b4note)
-        #time.sleep(0.2)
+        time.sleep(0.2)
         
 
 except Exception:
