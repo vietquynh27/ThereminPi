@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 24 00:43:51 2016
 
-@author: ABC
-"""
 import RPi.GPIO as GPIO
 import pygame
 import pygame.midi
@@ -11,16 +7,22 @@ import time
 import math
 import statistics
 
+#Set output(trigger) and input(echo) ready
 def prepare(GPIO_TRIGGER, GPIO_ECHO):
     GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
     GPIO.setup(GPIO_ECHO, GPIO.IN)
     GPIO.output(GPIO_TRIGGER, False)
-    time.sleep(0.1)
-    
+    print("Sensor is getting ready")
+    time.sleep(1)
+
+#This function get the distance from the sensor      
 def get_distance(GPIO_TRIGGER, GPIO_ECHO):
+    #Set output to true for 0.00001ms,
+    #this triggers the sensor to send an ultrasonic pulse (8 ultrasound burst at 40kHz) 
     GPIO.output(GPIO_TRIGGER, True)
     time.sleep(0.00001)
     GPIO.output(GPIO_TRIGGER, False)
+    #The sensor 
     try:
         while GPIO.input(GPIO_ECHO)==0:
             start = time.time()
