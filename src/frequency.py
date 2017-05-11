@@ -41,6 +41,7 @@ def get_distance(GPIO_TRIGGER, GPIO_ECHO):
     except Exception:
         pass
     #that gives the elapsed time for the pulse to goes and comes back
+    time.sleep(0.07)
     elapsed = stop - start
     #the sound traveled double the distance, so we get
     distance = (elapsed * 34300)/2
@@ -111,21 +112,21 @@ try:
             if single_dist is None:
                 single_dist = dist_alt
             liste.append(single_dist)
-        time.sleep(0.1)
+        #time.sleep(0.1)
         #Get the median value of the list
         median_dist = statistics.median(liste)
         print("median:", median_dist)
-        str(median_dist)
+        #str(median_dist)
         #Empty the list
         del liste [:]
         #Get the note from the median value of the distances measured
         note = get_note(median_dist)
         print("note:", note)
-        str(note)
+        #str(note)
         dist_alt = single_dist
         #Play the newly calculated note and shut off the previous one
         play_midi(note, b4note)
-        time.sleep(0.2)
+        #time.sleep(0.2)
         
 
 except Exception:
