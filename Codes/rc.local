@@ -1,0 +1,16 @@
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+python /home/pi/theremin/start.py &
+python /home/pi/theremin/end.py &
+(/bin/sleep 5 &&  python3 /home/pi/theremin/v2.py) &
+(/bin/sleep 10 &&  python3 /home/pi/theremin/fq.py) &
+
+exit 0
+
