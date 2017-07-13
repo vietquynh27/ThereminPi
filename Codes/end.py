@@ -11,8 +11,7 @@ try:
    GPIO.wait_for_edge(3, GPIO.FALLING)
    call(['sudo killall -9 timidity'], shell=True)
    call(['sudo killall -9 python3'], shell=True)
-   call(['espeak "Thea re min is shuting down. Please wait at least 1 minute before starting again." 2>/dev/null'], shell=True)
-   time.sleep(10)
+   time.sleep(3)
    call(['sudo poweroff -f'], shell=True)
 
 except:

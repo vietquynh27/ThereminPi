@@ -26,29 +26,31 @@ def get_distance(GPIO_TRIGGER, GPIO_ECHO):
             stop = time.time()
     except Exception:
         pass
+    time.sleep(0.08)
     elapsed = stop - start
     distance = (elapsed * 34300)/2
     return int(distance)
 
-      
-
 def get_vol(dist):
-   minDist = 6
-   maxDist = 56
-   minVol = 50
-   maxVol = 100
+    minDist = 6
+    maxDist = 40
+    minVol = 80
+    maxVol = 100
 
-   if (dist>maxDist):
+    if (dist>maxDist):
         vol=minVol
-   elif (dist<minDist):
+    elif (dist<minDist):
         vol=maxVol
-   else:
-    fup = (dist - minDist)*(maxVol-minVol)
-    fdown = (maxDist - minDist)
-    vol = maxVol - (fup/fdown)
+    else:
+        fup = (dist - minDist)*(maxVol-minVol)
+        fdown = (maxDist - minDist)
+        vol = maxVol - (fup/fdown)
+    return int(vol) 
 
-   return int(vol) 
-
+def append_list (vliste, single_dist):
+    vliste.pop(0)
+    vliste.append(single_dist)
+    return vliste
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -60,28 +62,18 @@ prepare(GPIO_TRIGGER, GPIO_ECHO)
 
 vol = 50
 
+vliste = [0]*5
+
 try:
     while True:
-        b4vol = vol
-        vliste = []
-        print('starte Messung')
-        while len(vliste) < 3:
-            dist = get_distance(GPIO_TRIGGER, GPIO_ECHO)
-            if dist is None:
-                dist = dist_alt
-            vliste.append(dist)
         time.sleep(0.1)
+        b4vol = vol
+        single_dist = get_distance(GPIO_TRIGGER, GPIO_ECHO)
+        vliste = append_list (vliste, single_dist)
         median_dist = statistics.median(vliste)
-        print("median:", median_dist)
-        str(median_dist)
-        del vliste [:]
         vol = get_vol(median_dist)
-        print(vol)
-        str(vol)
-        dist_alt = dist
-        subprocess.call("amixer sset Master,0 {}%".format(vol), shell=True)
-        time.sleep(0.2)
-        
+        subprocess.call("amixer sset PCM,0 {}%".format(vol), shell=True)
+     
 except KeyboardInterrupt:
     GPIO.cleanup()
 GPIO.cleanup()
